@@ -121,16 +121,27 @@ public class ExportExcelUtils {
     }
 
     private static void autoSizeColumns(Sheet sheet, int columnNumber) {
-
         for (int i = 0; i < columnNumber; i++) {
             int orgWidth = sheet.getColumnWidth(i);
             sheet.autoSizeColumn(i, true);
             int newWidth = (int) (sheet.getColumnWidth(i) + 100);
-            if (newWidth > orgWidth) {
+
+            //优化excel表中的某个单元格数据过大
+            for (int j = 0; j < columnNumber; j++) {
+                int colWidth = sheet.getColumnWidth(j)*2;
+                if(colWidth<255*256){
+                    sheet.setColumnWidth(j, colWidth < 3000 ? 3000 : colWidth);
+                }else{
+                    sheet.setColumnWidth(j,6000 );
+                }
+            }
+
+
+            /*if (newWidth > orgWidth) {
                 sheet.setColumnWidth(i, newWidth);
             } else {
                 sheet.setColumnWidth(i, orgWidth);
-            }
+            }*/
         }
     }
 

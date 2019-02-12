@@ -1,4 +1,12 @@
 package com.export.exportTool.mapper;
 
-public class ExMapper {
+import com.export.exportTool.model.ExObject;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface ExMapper {
+
+    List<ExObject> selectObj();
 }

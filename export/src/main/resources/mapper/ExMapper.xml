@@ -3,10 +3,27 @@
 
 <mapper namespace="com.export.exportTool.mapper.ExMapper">
     <resultMap id="userMap" type="com.export.exportTool.model.ExObject">
-        <id property="uid" column="uid"/>
-        <result property="username" column="username"/>
-        <result property="password" column="password"/>
+        <id property="nId" column="nId"/>
+        <result property="kbmSouc" column="KBM_Souc"/>
+        <result property="kbmSbj" column="KBM_Subj"/>
+        <result property="kbmCont" column="KBM_Cont"/>
+        <result property="kbmAndes" column="KBM_AnDes"/>
+        <result property="kbmSolu" column="KBM_Solu"/>
     </resultMap>
 
+    <select id="selectObj" resultMap="userMap">
+        SELECT
+        nid,
+        KBM_Souc,
+        KBM_Subj,
+        KBM_Cont,
+        KBM_AnDes,
+        KBM_Solu
+        from frm_kbm
+        WHERE
+        KBM_Stat = 4
+        AND
+        KBM_Grup_ID = "880299243150118913";
+   </select>
 
 </mapper>

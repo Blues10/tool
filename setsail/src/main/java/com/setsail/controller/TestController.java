@@ -1,5 +1,6 @@
 package com.setsail.controller;
 
+import com.setsail.common.JsonData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,8 +14,8 @@ public class TestController {
 
     @RequestMapping("/hello")
     @ResponseBody
-    public String hello(){
-        System.out.print("你妹的，，llldd");
-        return "hello";
+    public JsonData hello(){
+        log.info("hello");
+        return JsonData.success("hello");
     }
 }

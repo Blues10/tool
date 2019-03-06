@@ -35,6 +35,7 @@
       #{operator,jdbcType=VARCHAR}, #{operateTime,jdbcType=TIMESTAMP}, #{operateIp,jdbcType=VARCHAR}
       )
   </insert>
+
   <insert id="insertSelective" parameterType="com.setsail.model.SysDept" >
     insert into sys_dept
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -63,7 +64,7 @@
         operate_time,
       </if>
       <if test="operateIp != null" >
-        operate_ip,
+        operate_ip
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -92,7 +93,7 @@
         #{operateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="operateIp != null" >
-        #{operateIp,jdbcType=VARCHAR},
+        #{operateIp,jdbcType=VARCHAR}
       </if>
     </trim>
   </insert>
@@ -138,4 +139,44 @@
       operate_ip = #{operateIp,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="getAllDept" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_dept
+  </select>
+
+  <select id="getChildDeptLIstByLevel" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_dept
+    where
+    level like #{level} || '.%' -- level like '0.like'
+  </select>
+
+  <update id="batchUpdateLevel" parameterType="map">
+    <foreach collection="sysDeptList" item="sysDept" separator=";">
+      UPDATE sys_dept
+      SET level = #{dept.level}
+      WHERE id = #{dept.id}
+    </foreach>
+  </update>
+
+  <select id="countByNameAndParentId" parameterType="map" resultType="int">
+    SELECT count(1)
+    FROM sys_dept
+    WHERE name = #{name}
+    <if test="parentId != null">
+      AND parent_id = #{parentId}
+    </if>
+    <if test="id != null">
+      AND id != #{id}
+    </if>
+  </select>
+
+  <select id="countByParentId" parameterType="int" resultType="int">
+    SELECT count(1)
+    FROM sys_dept
+    WHERE parent_id = #{deptId}
+  </select>
 </mapper>

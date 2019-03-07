@@ -22,12 +22,8 @@ public class SysDeptService {
     private SysDeptMapper sysDeptMapper;
 
     public void save(DeptParam param) {
-        try {
             BeanValidator.check(param);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (checkExist(param.getParentId(),param.getName(),param.getSeq())) {
+            if (checkExist(param.getParentId(),param.getName(),param.getSeq())) {
             throw new ParamException("同一层级下存在相同名称的部门");
         }
         SysDept dept = SysDept.builder().name(param.getName()).parentId(param.getParentId())
@@ -40,11 +36,7 @@ public class SysDeptService {
     }
 
     public void update(DeptParam param) {
-        try {
-            BeanValidator.check(param);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        BeanValidator.check(param);
         if (checkExist(param.getParentId(), param.getName(), param.getId())){
             throw new ParamException("同一层级下存在相同名称的部门");
         }
